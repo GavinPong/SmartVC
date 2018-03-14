@@ -1,0 +1,35 @@
+################################
+#   所有Makefile的公共参数
+################################
+#=======================================
+#plateform
+export CHIP_TYPE := HI_3531A
+#=======================================
+#tools chain
+ifeq ($(CHIP_TYPE), HI_3531A)
+TOOL_CHAIN_DIR :=  #/home/share_disk/tool_chain/3531A_030/arm-hisiv300-linux/target/bin/
+export CROSS_COMPILE := #$(TOOL_CHAIN_DIR)arm-hisiv300-linux-
+else
+
+endif
+#=======================================
+export  CC := $(CROSS_COMPILE)gcc
+export  CXX := $(CROSS_COMPILE)g++
+export  AR := $(CROSS_COMPILE)ar
+export  LD := $(CROSS_COMPILE)ld
+export  STRIP := $(CROSS_COMPILE)strip
+export STRIPFLAGS:= -g --strip-unneeded
+export MAKEDEPEND =$(CC) -MM -MT
+
+export CFLAGS := -DPLATFORM=1
+export CPPFLAGS := -DPLATFORM=1
+export LDFLAGSS := 
+export MACRO :=
+
+############ share lib ################# 
+export HI_SDK_DIR :=
+export UTIL_TOOLS_DIR := /home/share_disk/workspace/code/util_tools
+
+
+############ alone lib #################
+export ALONE_LIB := 
