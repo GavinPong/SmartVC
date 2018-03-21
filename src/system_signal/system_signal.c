@@ -165,7 +165,7 @@ static void HandleDispathDistributor(int signal, char *str)
 		p_hand_list = p_cmdlist->m_handler_list;
 		while (p_hand_list)
 		{
-			p_hand_list->m_sys_cmd_handler(str);
+			p_hand_list->m_sys_cmd_handler(signal,str);
 			p_hand_list = p_hand_list->m_next;
 		}
 	}

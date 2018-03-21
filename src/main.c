@@ -23,11 +23,6 @@ int signal_handler(char *outstr){
 int main(int argc, char *argv[]){
 	log_param_t log_param;
 
-	char *func_name = (char *)calloc(1, strlen(__FILE__) + strlen("->") + strlen(__FUNCTION__) + 2);
-	if (func_name)
-	{
-		sprintf(func_name, "[%s->%s]", __FILE__, __FUNCTION__);
-	}
 	log_param.m_dst_ip = inet_addr("192.168.31.188");
 	log_param.m_dst_port = 8989;
 	memcpy(log_param.m_pathname, "./log.data", sizeof(log_param.m_pathname));
@@ -35,9 +30,7 @@ int main(int argc, char *argv[]){
 
 	log_startup(&log_param);
 	SytemSignal_StartCaptureAllSignal();
-	SytemSignal_AddPidIdFuncName(gettid(), func_name, strlen(func_name));
-	free(func_name);
-	func_name = NULL;
+	SysSignal_AddPidIdAndFuncName();
 	SytemSignal_RegisterSignalHandler(11, signal_handler);
 	SytemSignal_RegisterSignalHandler(2, signal_handler);
 	printf("__WORDSIZE :%d", __WORDSIZE);
