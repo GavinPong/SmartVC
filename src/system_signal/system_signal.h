@@ -13,10 +13,10 @@
 #endif
 #endif
 
-#ifdef __cplusplus
-extern "C"
-{
-#endif
+// #ifdef __cplusplus
+// extern "C"
+// {
+// #endif
 /***********注册所有系统信号*************/
 /*str:错误信息*/
 typedef int (*SysCommandHandlerCallBack)(int signal_id, char *out_str);
@@ -32,6 +32,7 @@ int SytemSignal_UnRegisterSignalHandler(int signal_id, SysCommandHandlerCallBack
 
 int SytemSignal_AddPidIdFuncName(int pid_id, const char *fun_name, unsigned int fun_name_size);
 
+#include "cross_platform.h"
 #ifndef gettid
 #include <sys/syscall.h>
 #define gettid() syscall(__NR_gettid)
@@ -39,17 +40,17 @@ int SytemSignal_AddPidIdFuncName(int pid_id, const char *fun_name, unsigned int 
 #include <stdlib.h>
 #include <string.h>
 #define SysSignal_AddPidIdAndFuncName() {\
-	char *func_name = (char *)calloc(1, strlen(__FILE__) + strlen("->") + strlen(__FUNCTION__) + 2 + strlen("SmartVC") + 1);\
+	char *func_name = (char *)calloc(1, strlen(__FILE__) + strlen("->") + strlen(__FUNCTION__) + 2 + strlen("SmartVC:") + 1);\
 	if(func_name)\
 	{\
 		sprintf(func_name, "[SmartVC:%s->%s]", __FILE__, __FUNCTION__);\
 		SytemSignal_AddPidIdFuncName(gettid(), func_name, strlen(func_name));\
 		free(func_name);\
-	}\	
+	};\
 }
 
-#ifdef __cplusplus
-}
-#endif
+// #ifdef __cplusplus
+// }
+// #endif
 
 #endif

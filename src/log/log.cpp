@@ -161,7 +161,8 @@ int log_shutdown(){
 	}
 	pthread_mutex_lock(&s_log_ctx.m_mtx);
 	s_log_ctx.m_net_connect_thread_exit = 1;
-	if (s_log_ctx.m_net_connect_thread)
+
+	if (PTHREAD_IS_NULL(s_log_ctx.m_net_connect_thread))
 	{
 		pthread_join(s_log_ctx.m_net_connect_thread, NULL);
 		memset(&s_log_ctx.m_net_connect_thread, 0, sizeof(s_log_ctx.m_net_connect_thread));

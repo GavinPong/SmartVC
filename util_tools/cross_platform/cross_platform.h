@@ -105,6 +105,8 @@ extern "C"{
 
 #define SYS_SIGNAL_PRT(format, ...) printf("[SYS_INFO:%s -> %s : %d->" format "]",__FILE__, __FUNCTION__, __LINE__, ##__VA_ARGS__ );
 
+#define PTHREAD_IS_NULL(x) (x).p
+
 typedef HMODULE  MODULE_HANDLE; 
 typedef unsigned long long __uint64;
 //安全的执行system函数
@@ -224,6 +226,8 @@ typedef _W64 unsigned int  uintptr_t;
 typedef long long          intmax_t;
 typedef unsigned long long uintmax_t;
 //============================================
+
+#define PTHREAD_IS_NULL(x) x
 
 //安全的执行system函数
 int sys_cmd_safe(char *cmd);

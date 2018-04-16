@@ -53,8 +53,8 @@ typedef struct __SIGNAL_INFO
 {
 	LIST_HEAD m_signal_desc_list;				//<!--信号与信号描述对应的链表头
 	LIST_HEAD m_pid_fun_name_list;				//<!--线程/进程ID对应的函数名
-	// 	pthread_rwlock_t m_signal_desc_m_mutex;		//<!--信号链表读写锁
-	// 	pthread_rwlock_t m_pid_fun_name_mutex;		//<!--线程ID/进程ID读写锁
+	pthread_rwlock_t m_signal_desc_m_mutex;		//<!--信号链表读写锁
+	pthread_rwlock_t m_pid_fun_name_mutex;		//<!--线程ID/进程ID读写锁
 }SIGNAL_INFO;
 
 //信号与信号描述链表
@@ -214,18 +214,19 @@ static char *SignalInfoListGetSignalDesc(LIST_HEAD *list_head, int signal)
 		return NULL;
 
 	SIGNAL_DESC_LIST *p_signal_info = NULL, *pos = NULL, *next = NULL;
-
+	pthread_rwlock_wrlock(&s_signal_info_list_head.m_signal_desc_m_mutex);
 	list_for_each_entry_safe(SIGNAL_DESC_LIST, p_signal_info, next, list_head, m_list)
 	{
 		if (p_signal_info->m_signal_id == signal)
 		{
 			if(p_signal_info->m_signal_mean)
 			{
+				pthread_rwlock_unlock(&s_signal_info_list_head.m_signal_desc_m_mutex);
 				return p_signal_info->m_signal_mean;
 			}
 		}
-
 	}
+	pthread_rwlock_unlock(&s_signal_info_list_head.m_signal_desc_m_mutex);
 	return NULL;
 }
 
@@ -235,18 +236,19 @@ static char *SignalInfoListGetPidIdFuncName(LIST_HEAD *list_head, int pid_id)
 		return NULL;
 
 	PID_FUN_NAME_LIST *p_signal_info = NULL, *pos = NULL, *next = NULL;
-
+	pthread_rwlock_wrlock(&s_signal_info_list_head.m_pid_fun_name_mutex);
 	list_for_each_entry_safe(PID_FUN_NAME_LIST, p_signal_info, next, list_head, m_list)
 	{
 		if (p_signal_info->m_pid_id == pid_id)
 		{
 			if (p_signal_info->m_send_pid_id_func_name)
 			{
+				pthread_rwlock_unlock(&s_signal_info_list_head.m_pid_fun_name_mutex);
 				return p_signal_info->m_send_pid_id_func_name;
 			}
 		}
-
 	}
+	pthread_rwlock_unlock(&s_signal_info_list_head.m_pid_fun_name_mutex);
 	return NULL;
 }
 
@@ -309,18 +311,22 @@ static int SignalInfoListAddSignalDesc(int signal, const char *desc, unsigned in
 		return -1;
 
 	SIGNAL_DESC_LIST *p_signal_info = NULL, *pos = NULL, *next = NULL;
-
+	pthread_rwlock_wrlock(&s_signal_info_list_head.m_signal_desc_m_mutex);
 	list_for_each_entry_safe(SIGNAL_DESC_LIST, p_signal_info, next, &s_signal_info_list_head.m_signal_desc_list, m_list)
 	{
 		if (p_signal_info->m_signal_id == signal)
 		{
 			//该信号ID已经添加过描述
 			if (p_signal_info->m_signal_mean)
+			{
+				pthread_rwlock_unlock(&s_signal_info_list_head.m_signal_desc_m_mutex);
 				return 0;
+			}
 			p_signal_info->m_signal_mean = (char *)malloc(desc_size);
 			if(p_signal_info->m_signal_mean)
 			{
 				memcpy(p_signal_info->m_signal_mean, desc, desc_size);
+				pthread_rwlock_unlock(&s_signal_info_list_head.m_signal_desc_m_mutex);
 				return 1;
 			}
 		}
@@ -334,6 +340,7 @@ static int SignalInfoListAddSignalDesc(int signal, const char *desc, unsigned in
 		{
 			memcpy(p_signal_info->m_signal_mean, desc, desc_size);
 			list_add_tail(&p_signal_info->m_list, &s_signal_info_list_head.m_signal_desc_list);
+			pthread_rwlock_unlock(&s_signal_info_list_head.m_signal_desc_m_mutex);
 			return 1;
 		}
 		else
@@ -341,6 +348,7 @@ static int SignalInfoListAddSignalDesc(int signal, const char *desc, unsigned in
 			free(p_signal_info);
 		}
 	}
+	pthread_rwlock_unlock(&s_signal_info_list_head.m_signal_desc_m_mutex);
 	return -1;
 }
 
@@ -419,6 +427,8 @@ void SytemSignal_StartCaptureAllSignal()
 	InitSysSignalHandleCfg();
 	InitSignalInfoList(&s_signal_info_list_head.m_signal_desc_list);
 	InitSignalInfoList(&s_signal_info_list_head.m_pid_fun_name_list);
+	pthread_rwlock_init(&s_signal_info_list_head.m_pid_fun_name_mutex, NULL);
+	pthread_rwlock_init(&s_signal_info_list_head.m_signal_desc_m_mutex, NULL);
 	int i = 0;
 #if (PLATFORM == LINUX_PLATFORM)
 	for(i = 0; i < 32; i++)
@@ -550,6 +560,8 @@ void SytemSignal_StopCaptureAllSignal()
 {
 	UnInitSysSignalHandleCfg();
 	UnInitSignalInfoList(&s_signal_info_list_head);
+	pthread_rwlock_destroy(&s_signal_info_list_head.m_pid_fun_name_mutex);
+	pthread_rwlock_destroy(&s_signal_info_list_head.m_signal_desc_m_mutex);
 }
 
 //添加对应信号描述
@@ -559,19 +571,23 @@ int SytemSignal_AddPidIdFuncName(int pid_id, const char *fun_name, unsigned int 
 		return -1;
 
 	PID_FUN_NAME_LIST *p_signal_info = NULL, *pos = NULL, *next = NULL;
-
+	pthread_rwlock_wrlock(&s_signal_info_list_head.m_pid_fun_name_mutex);
 	list_for_each_entry_safe(PID_FUN_NAME_LIST, p_signal_info, next, &s_signal_info_list_head.m_pid_fun_name_list, m_list)
 	{
 		if (p_signal_info->m_pid_id == pid_id)
 		{
 			//该线程/进程ID已经添加过函数名
 			if (p_signal_info->m_send_pid_id_func_name)
+			{
+				pthread_rwlock_unlock(&s_signal_info_list_head.m_pid_fun_name_mutex);
 				return 0;
+			}
 			p_signal_info->m_send_pid_id_func_name = (char *)malloc(fun_name_size + 1);
 			if (p_signal_info->m_send_pid_id_func_name)
 			{
 				memcpy(p_signal_info->m_send_pid_id_func_name, fun_name, fun_name_size);
 				p_signal_info->m_send_pid_id_func_name[fun_name_size] = '\0';
+				pthread_rwlock_unlock(&s_signal_info_list_head.m_pid_fun_name_mutex);
 				return 1;
 			}
 		}
@@ -586,6 +602,7 @@ int SytemSignal_AddPidIdFuncName(int pid_id, const char *fun_name, unsigned int 
 			memcpy(p_signal_info->m_send_pid_id_func_name, fun_name, fun_name_size);
 			p_signal_info->m_send_pid_id_func_name[fun_name_size] = '\0';
 			list_add_tail(&p_signal_info->m_list, &s_signal_info_list_head.m_pid_fun_name_list);
+			pthread_rwlock_unlock(&s_signal_info_list_head.m_pid_fun_name_mutex);
 			return 1;
 		}
 		else
@@ -593,5 +610,6 @@ int SytemSignal_AddPidIdFuncName(int pid_id, const char *fun_name, unsigned int 
 			free(p_signal_info);
 		}
 	}
+	pthread_rwlock_unlock(&s_signal_info_list_head.m_pid_fun_name_mutex);
 	return -1;
 }

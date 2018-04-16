@@ -15,6 +15,5 @@ readfile()
 		fi
 	done
 }
-
 folder="./"
 readfile $folder

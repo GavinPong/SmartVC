@@ -68,12 +68,12 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>Z:\workspace\code\SmartVC\SmartVC_platform\SmartVC\util_tools\strfunc;Z:\workspace\code\SmartVC\SmartVC_platform\SmartVC\util_tools\list;Z:\workspace\code\SmartVC\SmartVC_platform\SmartVC\util_tools\inirw;Z:\workspace\code\SmartVC\SmartVC_platform\SmartVC\util_tools\filefunc;Z:\workspace\code\SmartVC\SmartVC_platform\SmartVC\util_tools\cross_platform;Z:\workspace\code\SmartVC\SmartVC_platform\SmartVC\util_tools\base64;Z:\workspace\code\SmartVC\SmartVC_platform\SmartVC\util_tools\cJSON;Z:\workspace\thirdlib\pthread_win32;$(IncludePath)</IncludePath>
-    <LibraryPath>Z:\workspace\thirdlib\pthread_win32;$(LibraryPath)</LibraryPath>
+    <IncludePath>Z:\workspace\code\SmartVC\SmartVC\util_tools\base64;Z:\workspace\code\SmartVC\SmartVC\util_tools\cJSON;Z:\workspace\code\SmartVC\SmartVC\util_tools\cross_platform;Z:\workspace\code\SmartVC\SmartVC\util_tools\filefunc;Z:\workspace\code\SmartVC\SmartVC\util_tools\inirw;Z:\workspace\code\SmartVC\SmartVC\util_tools\list;Z:\workspace\code\SmartVC\SmartVC\util_tools\strfunc;Z:\workspace\thirdlib\pthread_win32\x86;$(IncludePath)</IncludePath>
+    <LibraryPath>Z:\workspace\thirdlib\pthread_win32\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>Z:\workspace\code\SmartVC\SmartVC_platform\SmartVC\util_tools\strfunc;Z:\workspace\code\SmartVC\SmartVC_platform\SmartVC\util_tools\list;Z:\workspace\code\SmartVC\SmartVC_platform\SmartVC\util_tools\inirw;Z:\workspace\code\SmartVC\SmartVC_platform\SmartVC\util_tools\filefunc;Z:\workspace\code\SmartVC\SmartVC_platform\SmartVC\util_tools\cross_platform;Z:\workspace\code\SmartVC\SmartVC_platform\SmartVC\util_tools\base64;Z:\workspace\code\SmartVC\SmartVC_platform\SmartVC\util_tools\cJSON;Z:\workspace\thirdlib\pthread_win32\x64;$(IncludePath)</IncludePath>
+    <IncludePath>Z:\workspace\code\SmartVC\SmartVC\util_tools\base64;Z:\workspace\code\SmartVC\SmartVC\util_tools\cJSON;Z:\workspace\code\SmartVC\SmartVC\util_tools\cross_platform;Z:\workspace\code\SmartVC\SmartVC\util_tools\filefunc;Z:\workspace\code\SmartVC\SmartVC\util_tools\inirw;Z:\workspace\code\SmartVC\SmartVC\util_tools\strfunc;Z:\workspace\code\SmartVC\SmartVC\util_tools\list;Z:\workspace\thirdlib\pthread_win32\x64;$(IncludePath)</IncludePath>
     <LibraryPath>Z:\workspace\thirdlib\pthread_win32\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -154,6 +154,7 @@
   <ItemGroup>
     <ClInclude Include="src\interface\interface_id_internal.h" />
     <ClInclude Include="src\log\log.h" />
+    <ClInclude Include="src\manager.h" />
     <ClInclude Include="src\system_signal\system_signal.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -171,6 +172,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\manager.c" />
     <ClCompile Include="src\system_signal\system_signal.c" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
