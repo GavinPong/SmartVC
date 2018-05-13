@@ -7,6 +7,17 @@
 
 #include <assert.h>
 
+
+/****select platform*******/
+#define WINDOWS_PLATFORM 0
+#define LINUX_PLATFORM 1
+#define IOS_PLATFORM 2
+
+// !PLATFORM
+#ifndef PLATFORM
+#define PLATFORM	WINDOWS_PLATFORM
+#endif 
+
 //设备类型(硬件类型)
 #define DEVICE_TYPE_IPC 0//1~999
 #define DEVICE_TYPE_DEC 1//1001~1999
@@ -52,18 +63,9 @@ typedef struct platform_info_ctx_s
 extern "C"{
 #endif
 
-/****select platform*******/
-#define WINDOWS_PLATFORM 0
-#define LINUX_PLATFORM 1
-#define IOS_PLATFORM 2
-
-// !PLATFORM
-#ifndef PLATFORM
-	#define PLATFORM	WINDOWS_PLATFORM
-#endif 
-
 //////////windows platform
 #if (PLATFORM == WINDOWS_PLATFORM) 		//windows 平台
+
 #include <WinSock2.h>
 #include <windows.h>
 #include <io.h>
@@ -146,7 +148,7 @@ unsigned int GetCurTimeStamp();
 #include <linux/if_ether.h> 
 #include <sys/ioctl.h>
 #include <netpacket/packet.h>
-
+#include <bits/wordsize.h>
 
 
 #define FDSET fd_set
@@ -211,25 +213,24 @@ typedef unsigned long long uint_fast64_t;
 #if (__WORDSIZE == 64)
 typedef long long          intptr_t;
 #else /* _WIN64 */
-typedef _W64 int           intptr_t;
+typedef int           intptr_t;
 #endif /* _WIN64 */
 #endif /* _INTPTR_T_DEFINED */
 
+
 #ifndef _UINTPTR_T_DEFINED
 #define _UINTPTR_T_DEFINED
-#ifdef (__WORDSIZE == 64)
+#if (__WORDSIZE == 64)
 typedef unsigned long long uintptr_t;
-#else /* _WIN64 */
-typedef _W64 unsigned int  uintptr_t;
-#endif /* _WIN64 */
+#else /* __WORDSIZE */
+typedef  unsigned int  uintptr_t;
+#endif /* __WORDSIZE */
 #endif /* _UINTPTR_T_DEFINED */
 
 typedef long long          intmax_t;
 typedef unsigned long long uintmax_t;
 //============================================
-
-#define PTHREAD_IS_NULL(x) x
-
+#define PTHREAD_IS_NULL(x) (x)
 //安全的执行system函数
 int sys_cmd_safe(char *cmd);
 int get_cur_datetime(struct tm *curtime);

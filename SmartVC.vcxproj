@@ -68,7 +68,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>Z:\workspace\code\SmartVC\SmartVC\util_tools\base64;Z:\workspace\code\SmartVC\SmartVC\util_tools\cJSON;Z:\workspace\code\SmartVC\SmartVC\util_tools\cross_platform;Z:\workspace\code\SmartVC\SmartVC\util_tools\filefunc;Z:\workspace\code\SmartVC\SmartVC\util_tools\inirw;Z:\workspace\code\SmartVC\SmartVC\util_tools\list;Z:\workspace\code\SmartVC\SmartVC\util_tools\strfunc;Z:\workspace\thirdlib\pthread_win32\x86;$(IncludePath)</IncludePath>
+    <IncludePath>Z:\workspace\code\SmartVC\SmartVC\util_tools\error;Z:\workspace\code\SmartVC\SmartVC\util_tools\base64;Z:\workspace\code\SmartVC\SmartVC\util_tools\cJSON;Z:\workspace\code\SmartVC\SmartVC\util_tools\cross_platform;Z:\workspace\code\SmartVC\SmartVC\util_tools\filefunc;Z:\workspace\code\SmartVC\SmartVC\util_tools\inirw;Z:\workspace\code\SmartVC\SmartVC\util_tools\list;Z:\workspace\code\SmartVC\SmartVC\src\system_signal;Z:\workspace\code\SmartVC\SmartVC\src\log;Z:\workspace\code\SmartVC\SmartVC\src\interface;Z:\workspace\code\SmartVC\SmartVC\util_tools\strfunc;Z:\workspace\thirdlib\pthread_win32\x86;$(IncludePath)</IncludePath>
     <LibraryPath>Z:\workspace\thirdlib\pthread_win32\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -152,9 +152,11 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\includes.h" />
     <ClInclude Include="src\interface\interface_id_internal.h" />
     <ClInclude Include="src\log\log.h" />
     <ClInclude Include="src\manager.h" />
+    <ClInclude Include="src\public_error.h" />
     <ClInclude Include="src\smartvc_error.h" />
     <ClInclude Include="src\system_signal\system_signal.h" />
     <ClInclude Include="stdafx.h" />
@@ -162,6 +164,7 @@
     <ClInclude Include="util_tools\base64\base64.h" />
     <ClInclude Include="util_tools\cJSON\cJSON.h" />
     <ClInclude Include="util_tools\cross_platform\cross_platform.h" />
+    <ClInclude Include="util_tools\error\gavin_error.h" />
     <ClInclude Include="util_tools\filefunc\filefunc.h" />
     <ClInclude Include="util_tools\inirw\inirw.h" />
     <ClInclude Include="util_tools\list\list.h" />

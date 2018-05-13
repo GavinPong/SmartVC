@@ -56,9 +56,10 @@ int _tmain(int argc, _TCHAR* argv[])
 	signal_handler_bind_signal_id();
 	SysSignal_AddPidIdAndFuncName();
 	//step_3
-	manager_system_autorise();//授权失败进入失败
+	manager_system_authorise();//授权失败进入失败
 	manager_system1_init();
 	manager_system2_init();
+	manager_watchdog_open();
 
 	while (APP_STATUS_RUNNING == g_manager_ctx.m_app_run_status)
 	{
@@ -93,6 +94,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	{
 		log_output(LOG_LEVEL_FILE_SCREEN, "app quit width unknown mode!", strlen("app quit width unknown mode!"));	
 	}
+	manager_watchdog_close();
 	log_shutdown();
 	manager_system_out();
 

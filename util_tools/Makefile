@@ -29,6 +29,7 @@ all:
 	cd ./base64 && make
 	cd ./cJSON && make
 	cd ./inirw && make
+	cd ./filefunc && make
 	cd ./strfunc && make
 	cd ./list && make
 	make $(TARGET)

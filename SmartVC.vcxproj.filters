@@ -60,6 +60,15 @@
     <ClInclude Include="src\smartvc_error.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="src\public_error.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="util_tools\error\gavin_error.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\includes.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
