@@ -70,6 +70,7 @@ extern "C"{
 #include <fcntl.h>
 #include <stdio.h>
 #include<ws2tcpip.h>
+#include <stdint.h>
 #include "pthread.h"
 #pragma comment(lib, "ws2_32.lib")
 

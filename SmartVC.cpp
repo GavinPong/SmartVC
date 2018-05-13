@@ -20,7 +20,7 @@ int signal_handler(int signal_id, char *out_str){
 
 	log_output(LOG_LEVEL_FILE_SCREEN, out_str, strlen(out_str));
 	g_manager_ctx.m_app_out_mode = APP_OUT_MODE_REBOOT;
-	g_manager_ctx.m_app_run_status = APP_STATUS_STOP;
+	g_manager_ctx.m_app_run_status = APP_STATUS_EXIT;
 	if (strstr(out_str, "main"))
 	{
 		SytemSignal_StopCaptureAllSignal();
@@ -42,25 +42,6 @@ void signal_handler_bind_signal_id(){
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-// 	log_param_t log_param;
-// 	//3:[ + ]  + \0µÄ³¤¶È
-// 	log_param.m_dst_ip = inet_addr("192.168.31.188");
-// 	log_param.m_dst_port = 8989;
-// 	memcpy(log_param.m_pathname, LOG_OUT_FILE, sizeof(log_param.m_pathname));
-// 	log_param.m_pathname[strlen(LOG_OUT_FILE)] = '\0';
-// 	//printf("__WORDSIZE :%d", _WIN64);
-// 	log_startup(&log_param);
-// 	SytemSignal_StartCaptureAllSignal();
-// 	SysSignal_AddPidIdAndFuncName();
-// 	SytemSignal_RegisterSignalHandler(11, signal_handler);
-// 	log_output(LOG_LEVEL_FILE_SCREEN, "12346", strlen("12346"));
-// //#define TEST_SIGNAL_MODULE
-// #ifdef TEST_SIGNAL_MODULE
-// 	char *ptr = NULL;
-// 	*ptr = 111;
-// #endif
-// 	SytemSignal_StopCaptureAllSignal();
-// 	log_shutdown();
 	log_param_t log_param;
 
 	log_param.m_dst_ip = inet_addr("192.168.31.188");
@@ -114,5 +95,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	}
 	log_shutdown();
 	manager_system_out();
+
+	return 0;
 }
 

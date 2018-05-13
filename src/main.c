@@ -8,13 +8,15 @@
 #include "cross_platform.h"
 #include "manager.h"
 
-int signal_handler(int signal_id, char *outstr){
+int signal_handler(int signal_id, char *out_str){
 
-	log_output(LOG_LEVEL_FILE_SCREEN, outstr, strlen(outstr));
+	log_output(LOG_LEVEL_FILE_SCREEN, out_str, strlen(out_str));
 	g_manager_ctx.m_app_out_mode = APP_OUT_MODE_REBOOT;
-	g_manager_ctx.m_app_run_status = APP_STATUS_STOP;
-	if (strstr(outstr, "main"))
+	g_manager_ctx.m_app_run_status = APP_STATUS_EXIT;
+	if (strstr(out_str, "main"))
 	{
+		SytemSignal_StopCaptureAllSignal();
+		log_shutdown();
 		exit(-1);
 	}
 
