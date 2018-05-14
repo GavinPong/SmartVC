@@ -61,7 +61,7 @@ typedef struct __SIGNAL_INFO
 typedef struct __SIGNAL_DESC_LIST
 {
 	LIST_HEAD m_list;				//<!--该字段的链表节点
-	int m_signal_id;				//<!--信号ID
+	int32_t m_signal_id;				//<!--信号ID
 	char *m_signal_mean;			//<!--信号ID的意义
 }SIGNAL_DESC_LIST;
 
@@ -69,7 +69,7 @@ typedef struct __SIGNAL_DESC_LIST
 typedef struct __PID_FUN_NAME_LIST
 {
 	LIST_HEAD m_list;				//<!--该字段的链表节点
-	int m_pid_id;					//<!--线程/进程ID
+	int32_t m_pid_id;					//<!--线程/进程ID
 	char *m_send_pid_id_func_name;	//<!--发出线程/进程ID的函数名
 }PID_FUN_NAME_LIST;
 
@@ -81,7 +81,7 @@ typedef struct _SYS_CMD_HANDLER_LIST{
 typedef struct _SYS_COMMAND_LIST
 {
 	LIST_HEAD m_list;					//索引数据结构的链表节点
-	int m_signal_id;				
+	int32_t m_signal_id;				
 	P_SYS_CMD_HANDLER_LIST m_handler_list;
 }SYS_COMMAND_LIST, *P_SYS_COMMAND_LIST;
 
@@ -93,7 +93,7 @@ typedef struct _SYS_COMMAND_CONTEXT{
 SYS_COMMAND_CONTEXT s_sys_cmd_ctx = {0};
 SIGNAL_INFO s_signal_info_list_head;
 
-static P_SYS_COMMAND_LIST find_command_list(int cmd)
+static P_SYS_COMMAND_LIST find_command_list(int32_t cmd)
 {
 	P_SYS_COMMAND_LIST p_sys_cmd_list = s_sys_cmd_ctx.m_p_sys_cmd_list;
 	LIST_HEAD *pos, *n;
@@ -116,7 +116,7 @@ static P_SYS_COMMAND_LIST find_command_list(int cmd)
 	return NULL;
 }
 
-static int DeleteHandler(P_SYS_CMD_HANDLER_LIST * plist, SysCommandHandlerCallBack handler)
+static int32_t DeleteHandler(P_SYS_CMD_HANDLER_LIST * plist, SysCommandHandlerCallBack handler)
 {
 	if (plist==NULL || (*plist)==NULL)
 	{
@@ -135,7 +135,7 @@ static int DeleteHandler(P_SYS_CMD_HANDLER_LIST * plist, SysCommandHandlerCallBa
 	return 0;
 }
 
-static int DeleteCommandList(int signal)
+static int32_t DeleteCommandList(int32_t signal)
 {
 	P_SYS_COMMAND_LIST p_cmdlist = find_command_list(signal);
 	if (p_cmdlist)
@@ -156,7 +156,7 @@ static int DeleteCommandList(int signal)
 	return 0;
 }
 
-static void HandleDispathDistributor(int signal, char *str)
+static void HandleDispathDistributor(int32_t signal, char *str)
 {
 	P_SYS_COMMAND_LIST p_cmdlist = find_command_list(signal);
 	P_SYS_CMD_HANDLER_LIST p_hand_list = NULL;
@@ -172,7 +172,7 @@ static void HandleDispathDistributor(int signal, char *str)
 }
 
 /****************以下为不开放接口*************************/
-static int InitSignalInfoList(LIST_HEAD *list_head)
+static int32_t InitSignalInfoList(LIST_HEAD *list_head)
 {
 	if (!list_head)
 		return -1;
@@ -208,7 +208,7 @@ static int UnInitSignalInfoList(SIGNAL_INFO *signal_info)
 	return 0;
 }
 
-static char *SignalInfoListGetSignalDesc(LIST_HEAD *list_head, int signal)
+static char *SignalInfoListGetSignalDesc(LIST_HEAD *list_head, int32_t signal)
 {
 	if (!list_head)
 		return NULL;
@@ -230,7 +230,7 @@ static char *SignalInfoListGetSignalDesc(LIST_HEAD *list_head, int signal)
 	return NULL;
 }
 
-static char *SignalInfoListGetPidIdFuncName(LIST_HEAD *list_head, int pid_id)
+static char *SignalInfoListGetPidIdFuncName(LIST_HEAD *list_head, int32_t pid_id)
 {
 	if (!list_head)
 		return NULL;
@@ -252,7 +252,7 @@ static char *SignalInfoListGetPidIdFuncName(LIST_HEAD *list_head, int pid_id)
 	return NULL;
 }
 
-static void SignalHander(int signal_id)
+static void SignalHander(int32_t signal_id)
 {
 #if (PLATFORM != LINUX_PLATFORM)	//windows不支持sigaction机制，所以采取重新注册
 	signal(signal_id, SignalHander);
@@ -305,7 +305,7 @@ static void SignalHander(int signal_id)
 }
 
 //添加对应信号描述
-static int SignalInfoListAddSignalDesc(int signal, const char *desc, unsigned int desc_size)
+static int SignalInfoListAddSignalDesc(int32_t signal, const char *desc, uint32_t desc_size)
 {
 	if (!desc || 0 >= desc_size)
 		return -1;
@@ -352,7 +352,7 @@ static int SignalInfoListAddSignalDesc(int signal, const char *desc, unsigned in
 	return -1;
 }
 
-static int InitSysSignalHandleCfg()
+static int32_t InitSysSignalHandleCfg()
 {
 	pthread_rwlock_init(&s_sys_cmd_ctx.m_rw_mutex, NULL);
 	s_sys_cmd_ctx.m_p_sys_cmd_list = (SYS_COMMAND_LIST *)malloc(sizeof(SYS_COMMAND_LIST));	//必须创建一个空链表头，否则第一个命令处理函数无法执行
@@ -360,7 +360,7 @@ static int InitSysSignalHandleCfg()
 	return 0;
 }
 
-static int UnInitSysSignalHandleCfg()
+static int32_t UnInitSysSignalHandleCfg()
 {
 	int i = 0;
 #if (PLATFORM == LINUX_PLATFORM)	
@@ -380,7 +380,7 @@ static int UnInitSysSignalHandleCfg()
 /******************
 注册系统命令处理函数
 ******************/
-int SytemSignal_RegisterSignalHandler(int signal_id, SysCommandHandlerCallBack handler)
+int32_t SytemSignal_RegisterSignalHandler(int32_t signal_id, SysCommandHandlerCallBack handler)
 {
 	P_SYS_CMD_HANDLER_LIST p_handlerlist = (P_SYS_CMD_HANDLER_LIST)malloc(sizeof(SYS_CMD_HANDLER_LIST));
 	p_handlerlist->m_sys_cmd_handler = handler;
@@ -409,7 +409,7 @@ int SytemSignal_RegisterSignalHandler(int signal_id, SysCommandHandlerCallBack h
 /******************
 反注册系统命令处理函数
 ******************/
-int SytemSignal_UnRegisterSignalHandler(int signal_id, SysCommandHandlerCallBack handler)
+int SytemSignal_UnRegisterSignalHandler(int32_t signal_id, SysCommandHandlerCallBack handler)
 {
 	pthread_rwlock_wrlock(&s_sys_cmd_ctx.m_rw_mutex);
 	P_SYS_COMMAND_LIST p_cmdlist = find_command_list(signal_id);
@@ -429,7 +429,7 @@ void SytemSignal_StartCaptureAllSignal()
 	InitSignalInfoList(&s_signal_info_list_head.m_pid_fun_name_list);
 	pthread_rwlock_init(&s_signal_info_list_head.m_pid_fun_name_mutex, NULL);
 	pthread_rwlock_init(&s_signal_info_list_head.m_signal_desc_m_mutex, NULL);
-	int i = 0;
+	int32_t i = 0;
 #if (PLATFORM == LINUX_PLATFORM)
 	for(i = 0; i < 32; i++)
 	{
@@ -565,7 +565,7 @@ void SytemSignal_StopCaptureAllSignal()
 }
 
 //添加对应信号描述
-int SytemSignal_AddPidIdFuncName(int pid_id, const char *fun_name, unsigned int fun_name_size)
+int32_t SytemSignal_AddPidIdFuncName(int32_t pid_id, const char *fun_name, uint32_t fun_name_size)
 {
 	if (!fun_name || 0 >= fun_name_size)
 		return -1;

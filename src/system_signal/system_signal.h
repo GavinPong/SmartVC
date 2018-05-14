@@ -1,6 +1,8 @@
 #ifndef __SYSSIGNALHANDLER_H__
 #define __SYSSIGNALHANDLER_H__
 
+#include "cross_platform.h"
+
 #ifndef SDK_API
 #if (PLATFORM == WINDOWS_PLATFORM)
 #ifdef SYS_SIGNAL_EXPORTS
@@ -19,20 +21,19 @@
 // #endif
 /***********注册所有系统信号*************/
 /*str:错误信息*/
-typedef int (*SysCommandHandlerCallBack)(int signal_id, char *out_str);
+typedef int32_t (*SysCommandHandlerCallBack)(int32_t signal_id, char *out_str);
 
 void SytemSignal_StartCaptureAllSignal();
 
 void SytemSignal_StopCaptureAllSignal();
 
 /***********注册系统命令处理函数*********/
-int SytemSignal_RegisterSignalHandler(int signal_id, SysCommandHandlerCallBack handler);
+int32_t SytemSignal_RegisterSignalHandler(int32_t signal_id, SysCommandHandlerCallBack handler);
 
-int SytemSignal_UnRegisterSignalHandler(int signal_id, SysCommandHandlerCallBack handler);
+int32_t SytemSignal_UnRegisterSignalHandler(int32_t signal_id, SysCommandHandlerCallBack handler);
 
-int SytemSignal_AddPidIdFuncName(int pid_id, const char *fun_name, unsigned int fun_name_size);
+int32_t SytemSignal_AddPidIdFuncName(int32_t pid_id, const char *fun_name, uint32_t fun_name_size);
 
-#include "cross_platform.h"
 #ifndef gettid
 #include <sys/syscall.h>
 #define gettid() syscall(__NR_gettid)

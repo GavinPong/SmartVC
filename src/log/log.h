@@ -1,6 +1,8 @@
 #ifndef __LOG_H__
 #define __LOG_H__
 
+#include "cross_platform.h"
+
 typedef enum log_level_e{
 	LOG_LEVEL_SCREEN,			//屏幕输出
 	LOG_LEVEL_FILE,				//输出到文件
@@ -21,13 +23,13 @@ extern "C"{
 #endif
 
 //启动日志模块
-int log_startup(log_param_t *log_param);
+int32_t log_startup(log_param_t *log_param);
 //关闭日志模块
-int log_shutdown();
+int32_t log_shutdown();
 //支持运行时调整日志输出目的地
-int log_modify_param(log_param_t log_param);
+int32_t log_modify_param(log_param_t log_param);
 //输出日志
-int log_output(log_level_e log_level, char *log_str, int str_size);
+int32_t log_output(log_level_e log_level, char *log_str, int32_t str_size);
 
 #ifdef __cplusplus
 }

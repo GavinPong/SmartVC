@@ -20,6 +20,8 @@
 #ifndef __STRFUNC_H__
 #define __STRFUNC_H__
 
+#include "cross_platform.h"
+
 
 #ifdef __cplusplus
 #if __cplusplus
@@ -30,9 +32,7 @@ extern "C"{
 #define STRFMT_ADDR32    "%#010lX"
 #define STRFMT_ADDR32_2  "0x%08lX"
 
-typedef int INT32;
-
-extern int StrToNumber(char *str , unsigned int * ulValue);
+extern int32_t StrToNumber(char *str , uint32_t * ulValue);
 
 
 #ifdef __cplusplus

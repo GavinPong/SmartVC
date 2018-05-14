@@ -20,9 +20,10 @@
 #include <stdio.h>
 #include <ctype.h>
 #include "strfunc.h"
+#include "cross_platform.h"
 
-static int atoul(char *str,unsigned int * pulValue);
-static int atoulx(char *str,unsigned int * pulValue);
+static int32_t atoul(char *str,uint32_t * pulValue);
+static int32_t atoulx(char *str,uint32_t * pulValue);
 
 
 /*****************************************************************************
@@ -45,7 +46,7 @@ static int atoulx(char *str,unsigned int * pulValue);
    Modification : Created function
 *****************************************************************************/
 
-int StrToNumber(char *str , unsigned int * pulValue)
+int32_t StrToNumber(char *str , uint32_t * pulValue)
 {
     /*判断是否16进制的字符串*/
     if ( *str == '0' && (*(str+1) == 'x' || *(str+1) == 'X') )
@@ -82,13 +83,13 @@ int StrToNumber(char *str , unsigned int * pulValue)
    Author       : t41030
    Modification : Created function
 *****************************************************************************/
-static int atoul(char *str,unsigned int * pulValue)
+static int32_t atoul(char *str,uint32_t * pulValue)
 {
-    unsigned int ulResult=0;
+    uint32_t ulResult=0;
 
     while (*str)
     {
-        if (isdigit((int)*str))
+        if (isdigit((int32_t)*str))
         {
             /*最大支持到0xFFFFFFFF(4294967295), 
                X * 10 + (*str)-48 <= 4294967295
@@ -136,10 +137,10 @@ static int atoul(char *str,unsigned int * pulValue)
 #define ASC2NUM(ch) (ch - '0')
 #define HEXASC2NUM(ch) (ch - 'A' + 10)
 
-int  atoulx(char *str,unsigned int * pulValue)
+int32_t  atoulx(char *str,uint32_t * pulValue)
 {
-    unsigned int   ulResult=0;
-    unsigned char ch;
+    uint32_t   ulResult=0;
+    int32_t ch;
 
     while (*str)
     {

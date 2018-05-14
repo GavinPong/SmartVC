@@ -15,8 +15,8 @@
 extern "C"{
 #endif
 
-int FILE_FUNC_Get_Json_Form_File(const char *path_name, cJSON **out_json);
-int FILE_FUNC_Put_Json_Form_File(const char *path_name, cJSON *in_json);
+int32_t FILE_FUNC_Get_Json_Form_File(const char *path_name, cJSON **out_json);
+int32_t FILE_FUNC_Put_Json_Form_File(const char *path_name, cJSON *in_json);
 
 #ifdef __cplusplus
 }

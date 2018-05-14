@@ -3,10 +3,11 @@
 #include <stdio.h>
 #include <string.h>
 #include "filefunc.h"
+#include "cross_platform.h"
 
 
-int FILE_FUNC_Get_Json_Form_File(const char *path_name, cJSON **out_json){
-	int file_size = 0;
+int32_t FILE_FUNC_Get_Json_Form_File(const char *path_name, cJSON **out_json){
+	int32_t file_size = 0;
 	char *file_buf = NULL;
 	FILE *fp;
 
@@ -45,7 +46,7 @@ int FILE_FUNC_Get_Json_Form_File(const char *path_name, cJSON **out_json){
 	return FILE_FUNC_OK;
 }
 
-int FILE_FUNC_Put_Json_Form_File(const char *path_name, cJSON *in_json){
+int32_t FILE_FUNC_Put_Json_Form_File(const char *path_name, cJSON *in_json){
 	FILE *fp;
 	char *ptr;
 

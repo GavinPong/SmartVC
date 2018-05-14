@@ -3,6 +3,7 @@ include ../Makefile.param
 INCS :=	
 INCS += -I$(cJSON_SRC_DIR)
 INCS += -I$(LIST_SRC_DIR)
+INCS += -I$(CROSS_PLATFORM_DIR)
 
 SRCS_C := 
 SRCS_C := $(wildcard *.c)

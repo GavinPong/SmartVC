@@ -19,21 +19,21 @@
 #include "log.h"
 
 typedef struct log_ctx_s{
-	char m_inited;						//是否启动
-	int m_fd;							//文件句柄
-	int m_sockfd;						//套接字句柄
+	int8_t m_inited;						//是否启动
+	int32_t m_fd;							//文件句柄
+	int32_t m_sockfd;						//套接字句柄
 	log_param_t m_param;				//日志参数
 	pthread_mutex_t m_param_mtx;		//互斥锁
 	pthread_mutex_t m_mtx;				//互斥锁
 	pthread_mutex_t m_cond_mtx;			//互斥锁
 	pthread_cond_t m_cond;				//条件锁
 	pthread_t m_net_connect_thread;
-	char m_net_connect_thread_exit;
+	int8_t m_net_connect_thread_exit;
 }log_ctx_t;
 
 static log_ctx_t s_log_ctx;
 
-static int log_connect_net_dst(){
+static int32_t log_connect_net_dst(){
 	struct sockaddr_in dstaddr;
 	struct timeval timeo;
 
@@ -72,7 +72,7 @@ static int log_connect_net_dst(){
 	return 0;
 }
 
-static int log_disconnect_net_dst(){
+static int32_t log_disconnect_net_dst(){
 	if (s_log_ctx.m_sockfd < 0)
 	{
 		return 0;
@@ -84,7 +84,7 @@ static int log_disconnect_net_dst(){
 	return 0;
 }
 
-static int log_open_file(){
+static int32_t log_open_file(){
 	if (s_log_ctx.m_fd)
 	{
 		close(s_log_ctx.m_fd);
@@ -100,7 +100,7 @@ static int log_open_file(){
 	return 0;
 }
 
-static int log_close_file(){
+static int32_t log_close_file(){
 	if (s_log_ctx.m_fd < 0)
 	{
 		return 0;
@@ -126,7 +126,7 @@ void *log_net_connect_thread(void *param){
 }
 
 //启动日志模块
-int log_startup(log_param_t *log_param){
+int32_t log_startup(log_param_t *log_param){
 	if (!log_param)
 	{
 		return -1;
@@ -154,7 +154,7 @@ int log_startup(log_param_t *log_param){
 }
 
 //关闭日志模块
-int log_shutdown(){
+int32_t log_shutdown(){
 	if (!s_log_ctx.m_inited)
 	{
 		return -1;
@@ -179,7 +179,7 @@ int log_shutdown(){
 }
 
 //支持运行时调整日志输出目的地
-int log_modify_param(log_param_t log_param){
+int32_t log_modify_param(log_param_t log_param){
 	pthread_mutex_lock(&s_log_ctx.m_param_mtx);
 	if (strcmp(s_log_ctx.m_param.m_pathname, log_param.m_pathname))
 	{
@@ -199,7 +199,7 @@ int log_modify_param(log_param_t log_param){
 	return 0;
 }
 
-int log_output(log_level_e log_level, char *log_str, int str_size){
+int32_t log_output(log_level_e log_level, char *log_str, int32_t str_size){
 	if (!log_str || !str_size)
 	{
 		return -1;

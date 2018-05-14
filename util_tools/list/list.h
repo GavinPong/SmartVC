@@ -50,12 +50,12 @@ static inline void list_del(PLIST_HEAD entry)
 	entry->prev = NULL;
 }
 
-static inline int list_empty(const PLIST_HEAD head)
+static inline int32_t list_empty(const PLIST_HEAD head)
 {
 	return head->next == head;
 }
 
-static inline int list_empty_careful(const PLIST_HEAD head)
+static inline int32_t list_empty_careful(const PLIST_HEAD head)
 {
 	PLIST_HEAD next = head->next;
 	return (next == head) && (next == head->prev);

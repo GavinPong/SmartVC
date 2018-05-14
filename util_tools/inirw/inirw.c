@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include "cross_platform.h"
 
 #define SIZE_LINE		1024	//每行最大长度
 #define SIZE_FILENAME	256		//文件名最大长度
@@ -19,7 +20,7 @@ typedef enum _ELineType_ {
 
 static char gFilename[SIZE_FILENAME];
 static char *gBuffer;
-static int gBuflen;
+static int32_t gBuflen;
 
 
 //去除串首尾空格，原串被改写
@@ -48,9 +49,9 @@ static char *StrStrip(char *s)
 
 
 //不区分大小写比较字符串
-static int StriCmp(const char *s1, const char *s2)
+static int32_t StriCmp(const char *s1, const char *s2)
 {
-	int ch1, ch2;
+	int32_t ch1, ch2;
 	do
 	{
 		ch1 = (unsigned char)*(s1++);
@@ -69,12 +70,12 @@ static int StriCmp(const char *s1, const char *s2)
 //输入：数据区(指针及长度)
 //输出：行类型、有效内容串(去首尾空格)、注释首、注释尾、下一行首(行尾与下一行首间为换行符)
 //      有效内容位置为[buf, rem1)
-static int GetLine(char *buf, int buflen, char *content, char **rem1, char **rem2, char **nextline)
+static int32_t GetLine(char *buf, int32_t buflen, char *content, char **rem1, char **rem2, char **nextline)
 {
 	char *cont1, *cont2;
-	int cntblank, cntCR, cntLF;		//连续空格、换行符数量
-	char isQuot1, isQuot2;			//引号
-	int i;
+	int32_t cntblank, cntCR, cntLF;		//连续空格、换行符数量
+	int8_t isQuot1, isQuot2;			//引号
+	int32_t i;
 	char *p;
 
 	//首先断行断注释，支持如下换行符：\r、\n、\r\n、\n\r
@@ -167,16 +168,16 @@ static int GetLine(char *buf, int buflen, char *content, char **rem1, char **rem
 //取一节section
 //输入：节名称
 //输出：成功与否、节名称首、节名称尾、节内容首、节内容尾(含换行)、下一节首(节尾与下一节首间为空行或注释行)
-static int FindSection(const char *section, char **sect1, char **sect2, char **cont1, char **cont2, char **nextsect)
+static int32_t FindSection(const char *section, char **sect1, char **sect2, char **cont1, char **cont2, char **nextsect)
 {
-	int type;
+	int32_t type;
 	char content[SIZE_LINE];
 	char *rem1 = NULL, *rem2 = NULL, *nextline = NULL;
 
 	char *p;
 	char *empty;
-	int uselen = 0;
-	char found = 0;
+	int32_t uselen = 0;
+	int8_t found = 0;
 
 	if (gBuffer == NULL) {
 		return 0;
@@ -185,7 +186,7 @@ static int FindSection(const char *section, char **sect1, char **sect2, char **c
 	while (gBuflen - uselen > 0) {
 		p = gBuffer + uselen;
 		type = GetLine(p, gBuflen - uselen, content, &rem1, &rem2, &nextline);
-		uselen += (int)(nextline - p);
+		uselen += (int32_t)(nextline - p);
 
 		if (LINE_SECTION == type) {
 			if (found || section == NULL) break;		//发现另一section
@@ -246,7 +247,7 @@ void iniFileFree()
 
 
 //加载ini文件至内存
-int iniFileLoad(const char *filename)
+int32_t iniFileLoad(const char *filename)
 {
 	FILE *file;
 	int len;
@@ -277,18 +278,18 @@ int iniFileLoad(const char *filename)
 
 
 //读取值原始串
-static int iniGetValue(const char *section, const char *key, char *value, int maxlen, const char *defvalue)
+static int32_t iniGetValue(const char *section, const char *key, char *value, int32_t maxlen, const char *defvalue)
 {
-	int type;
+	int32_t type;
 	char content[SIZE_LINE];
 	char *rem1, *rem2, *nextline;
 	char *key0, *value0;
 
 	char *p;
-	int uselen = 0;
-	char found = 0;
+	int32_t uselen = 0;
+	int8_t found = 0;
 
-	int len;
+	int32_t len;
 
 	if (gBuffer == NULL || key == NULL) {
 		if (value != NULL)
@@ -299,7 +300,7 @@ static int iniGetValue(const char *section, const char *key, char *value, int ma
 	while (gBuflen - uselen > 0) {
 		p = gBuffer + uselen;
 		type = GetLine(p, gBuflen - uselen, content, &rem1, &rem2, &nextline);
-		uselen += (int)(nextline - p);
+		uselen += (int32_t)(nextline - p);
 
 		if (LINE_SECTION == type) {
 			if (found || section == NULL) break;		//发现另一section
@@ -344,10 +345,10 @@ static int iniGetValue(const char *section, const char *key, char *value, int ma
 
 
 //获取字符串，不带引号
-int iniGetString(const char *section, const char *key, char *value, int maxlen, const char *defvalue)
+int32_t iniGetString(const char *section, const char *key, char *value, int32_t maxlen, const char *defvalue)
 {
-	int ret;
-	int len;
+	int32_t ret;
+	int32_t len;
 
 	ret = iniGetValue(section, key, value, maxlen, defvalue);
 	if (!ret)
@@ -368,12 +369,12 @@ int iniGetString(const char *section, const char *key, char *value, int maxlen, 
 
 
 //获取整数值
-int iniGetInt(const char *section, const char *key, int defvalue)
+int32_t iniGetInt(const char *section, const char *key, int32_t defvalue)
 {
 	char valstr[64];
 
 	if (iniGetValue(section, key, valstr, sizeof(valstr), NULL))
-	    return (int)strtol(valstr, NULL, 0);
+	    return (int32_t)strtol(valstr, NULL, 0);
 	return defvalue;
 }
 
@@ -384,18 +385,18 @@ double iniGetDouble(const char *section, const char *key, double defvalue)
 	char valstr[64];
 
 	if (iniGetValue(section, key, valstr, sizeof(valstr), NULL))
-	    return (int)atof(valstr);
+	    return (double)atof(valstr);
 	return defvalue;
 }
 
 
 //设置字符串：若value为NULL，则删除该key所在行，包括注释
-int iniSetString(const char *section, const char *key, const char *value)
+int32_t iniSetString(const char *section, const char *key, const char *value)
 {
 	FILE *file;
 	char *sect1, *sect2, *cont1, *cont2, *nextsect;
 	char *p;
-	int len, type;
+	int32_t len, type;
 	char content[SIZE_LINE];
 	char *key0, *value0;
 	char *rem1, *rem2, *nextline;
@@ -425,7 +426,7 @@ int iniSetString(const char *section, const char *key, const char *value)
 
 	//找到节，则节内查找key
 	p = cont1;
-	len = (int)(cont2 - cont1);
+	len = (int32_t)(cont2 - cont1);
 	while (len > 0) {
 		type = GetLine(p, len, content, &rem1, &rem2, &nextline);
 
@@ -436,15 +437,15 @@ int iniSetString(const char *section, const char *key, const char *value)
 				file = fopen(gFilename, "wb");
 				if (file == NULL) 
 					return 0;
-				len = (int)(p - gBuffer);
+				len = (int32_t)(p - gBuffer);
 				fwrite(gBuffer, 1, len, file);					//写入key之前部分
 				if (value == NULL) {
 					//value无效，删除
-					len = (int)(nextline - gBuffer);			//整行连同注释一并删除
+					len = (int32_t)(nextline - gBuffer);			//整行连同注释一并删除
 				} else {
 					//value有效，改写
 					fprintf(file, "%s = %s", key, value);
-					len = (int)(rem1 - gBuffer);				//保留尾部原注释!
+					len = (int32_t)(rem1 - gBuffer);				//保留尾部原注释!
 				}
 				fwrite(gBuffer + len, 1, gBuflen - len, file);	//写入key所在行含注释之后部分
 				fclose(file);
@@ -453,7 +454,7 @@ int iniSetString(const char *section, const char *key, const char *value)
 			}	
 		}
 
-		len -= (int)(nextline - p);
+		len -= (int32_t)(nextline - p);
 		p = nextline;
 	}
 
@@ -467,7 +468,7 @@ int iniSetString(const char *section, const char *key, const char *value)
 	file = fopen(gFilename, "wb");
 	if (file == NULL) 
 		return 0;
-	len = (int)(cont2 - gBuffer);
+	len = (int32_t)(cont2 - gBuffer);
 	fwrite(gBuffer, 1, len, file);					//写入key之前部分
 	fprintf(file, "%s = %s\n", key, value);
 	fwrite(gBuffer + len, 1, gBuflen - len, file);	//写入key之后部分
@@ -478,7 +479,7 @@ int iniSetString(const char *section, const char *key, const char *value)
 
 
 //设置整数值：base取值10、16、8，分别表示10、16、8进制，缺省为10进制
-int iniSetInt(const char *section, const char *key, int value, int base)
+int32_t iniSetInt(const char *section, const char *key, int32_t value, int32_t base)
 {
 	char valstr[64];
 

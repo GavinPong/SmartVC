@@ -16,7 +16,7 @@
 #define LOG_OUT_FILE "log.data"
 #endif
 
-int signal_handler(int signal_id, char *out_str){
+int32_t signal_handler(int32_t signal_id, char *out_str){
 
 	log_output(LOG_LEVEL_FILE_SCREEN, out_str, strlen(out_str));
 	g_manager_ctx.m_app_out_mode = APP_OUT_MODE_REBOOT;
@@ -32,7 +32,7 @@ int signal_handler(int signal_id, char *out_str){
 }
 
 void signal_handler_bind_signal_id(){
-	int i = 0;
+	int32_t i = 0;
 
 	for (;i < 32; i++)
 	{
@@ -40,7 +40,7 @@ void signal_handler_bind_signal_id(){
 	}
 }
 
-int _tmain(int argc, _TCHAR* argv[])
+int32_t _tmain(int32_t argc, _TCHAR* argv[])
 {
 	log_param_t log_param;
 

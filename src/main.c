@@ -1,14 +1,6 @@
-#include <stdio.h>
-#include <string.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include "log.h"
-#include "system_signal.h"
-#include "cross_platform.h"
-#include "manager.h"
+#include "includes.h"
 
-int signal_handler(int signal_id, char *out_str){
+int32_t signal_handler(int32_t signal_id, char *out_str){
 
 	log_output(LOG_LEVEL_FILE_SCREEN, out_str, strlen(out_str));
 	g_manager_ctx.m_app_out_mode = APP_OUT_MODE_REBOOT;
@@ -24,7 +16,7 @@ int signal_handler(int signal_id, char *out_str){
 }
 
 void signal_handler_bind_signal_id(){
-	int i = 0;
+	int32_t i = 0;
 
 	for (;i < 32; i++)
 	{
@@ -33,7 +25,7 @@ void signal_handler_bind_signal_id(){
 }
 
 
-int main(int argc, char *argv[]){
+int32_t main(int32_t argc, char *argv[]){
 	log_param_t log_param;
 
 	log_param.m_dst_ip = inet_addr("192.168.31.188");

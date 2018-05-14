@@ -48,12 +48,6 @@
 //record
 #define CONFIG_PATH_RECORD "/mnt/mtd/conf/record/property.json"
 
-typedef struct platform_info_ctx_s
-{
-	unsigned long m_device_type_major;		//设备主类型
-	unsigned long m_device_type_minor;		//设备子类型
-	unsigned long m_devive_id;				//设备唯一ID
-}platform_info_ctx_t;
 
 #if (PLATFORM == WINDOWS_PLATFORM) 		//windows 平台
 #include <typeinfo.h>	//该头文件只有在c++编译中才能用，所以没有extern "C"{中
@@ -113,10 +107,10 @@ extern "C"{
 typedef HMODULE  MODULE_HANDLE; 
 typedef unsigned long long __uint64;
 //安全的执行system函数
-int sys_cmd_safe(char *cmd);
-int get_cur_datetime(struct tm *curtime);
+int32_t sys_cmd_safe(char *cmd);
+int32_t get_cur_datetime(struct tm *curtime);
 //ms
-unsigned int GetCurTimeStamp();
+uint32_t GetCurTimeStamp();
 #endif
 
 /******linux platform*******/
@@ -232,15 +226,22 @@ typedef unsigned long long uintmax_t;
 //============================================
 #define PTHREAD_IS_NULL(x) (x)
 //安全的执行system函数
-int sys_cmd_safe(char *cmd);
-int get_cur_datetime(struct tm *curtime);
+int32_t sys_cmd_safe(char *cmd);
+int32_t get_cur_datetime(struct tm *curtime);
 //ms
-unsigned int GetCurTimeStamp();
+uint32_t GetCurTimeStamp();
 #endif
 
 /*****ios platform**********/
 #if (PLATFORM == IOS_PLATFORM)
 #endif
+
+typedef struct platform_info_ctx_s
+{
+	uint32_t m_device_type_major;		//设备主类型
+	uint32_t m_device_type_minor;		//设备子类型
+	uint32_t m_devive_id;				//设备唯一ID
+}platform_info_ctx_t;
 
 extern platform_info_ctx_t g_platform_info_ctx;
 
