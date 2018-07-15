@@ -32,7 +32,7 @@ int32_t SytemSignal_RegisterSignalHandler(int32_t signal_id, SysCommandHandlerCa
 
 int32_t SytemSignal_UnRegisterSignalHandler(int32_t signal_id, SysCommandHandlerCallBack handler);
 
-int32_t SytemSignal_AddPidIdFuncName(int32_t pid_id, const char *fun_name, uint32_t fun_name_size);
+int32_t SytemSignal_AddPidIdFuncName(uint32_t pid_id, const char *fun_name, uint32_t fun_name_size);
 
 #ifndef gettid
 #include <sys/syscall.h>

@@ -199,7 +199,7 @@ int32_t log_modify_param(log_param_t log_param){
 	return 0;
 }
 
-int32_t log_output(log_level_e log_level, char *log_str, int32_t str_size){
+int32_t log_output(log_level_e log_level, const char *log_str, int32_t str_size){
 	if (!log_str || !str_size)
 	{
 		return -1;

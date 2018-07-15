@@ -39,14 +39,15 @@ $(TARGET):
 
 clean: 
 	/bin/bash ./clear_o_file.sh
-	rm $(TARGET)
+	rm $(TARGET) -rf
 
 depend:
 	/bin/bash ./clear_d_file.sh
+	rm $(TARGET) -rf
 
 distclean:
 	/bin/bash ./clear_o_d_file.sh
-	rm $(TARGET)
+	rm $(TARGET) -rf
 	
 
 .PHONY:$(TARGET)

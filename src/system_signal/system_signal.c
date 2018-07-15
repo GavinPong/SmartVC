@@ -213,7 +213,7 @@ static char *SignalInfoListGetSignalDesc(LIST_HEAD *list_head, int32_t signal)
 	if (!list_head)
 		return NULL;
 
-	SIGNAL_DESC_LIST *p_signal_info = NULL, *pos = NULL, *next = NULL;
+	SIGNAL_DESC_LIST *p_signal_info = NULL, *next = NULL;
 	pthread_rwlock_wrlock(&s_signal_info_list_head.m_signal_desc_m_mutex);
 	list_for_each_entry_safe(SIGNAL_DESC_LIST, p_signal_info, next, list_head, m_list)
 	{
@@ -235,7 +235,7 @@ static char *SignalInfoListGetPidIdFuncName(LIST_HEAD *list_head, uint32_t pid_i
 	if (!list_head)
 		return NULL;
 
-	PID_FUN_NAME_LIST *p_signal_info = NULL, *pos = NULL, *next = NULL;
+	PID_FUN_NAME_LIST *p_signal_info = NULL, *next = NULL;
 	pthread_rwlock_wrlock(&s_signal_info_list_head.m_pid_fun_name_mutex);
 	list_for_each_entry_safe(PID_FUN_NAME_LIST, p_signal_info, next, list_head, m_list)
 	{
@@ -310,7 +310,7 @@ static int SignalInfoListAddSignalDesc(int32_t signal, const char *desc, uint32_
 	if (!desc || 0 >= desc_size)
 		return -1;
 
-	SIGNAL_DESC_LIST *p_signal_info = NULL, *pos = NULL, *next = NULL;
+	SIGNAL_DESC_LIST *p_signal_info = NULL, *next = NULL;
 	pthread_rwlock_wrlock(&s_signal_info_list_head.m_signal_desc_m_mutex);
 	list_for_each_entry_safe(SIGNAL_DESC_LIST, p_signal_info, next, &s_signal_info_list_head.m_signal_desc_list, m_list)
 	{
@@ -565,12 +565,12 @@ void SytemSignal_StopCaptureAllSignal()
 }
 
 //添加对应信号描述
-int32_t SytemSignal_AddPidIdFuncName(int32_t pid_id, const char *fun_name, uint32_t fun_name_size)
+int32_t SytemSignal_AddPidIdFuncName(uint32_t pid_id, const char *fun_name, uint32_t fun_name_size)
 {
 	if (!fun_name || 0 >= fun_name_size)
 		return -1;
 
-	PID_FUN_NAME_LIST *p_signal_info = NULL, *pos = NULL, *next = NULL;
+	PID_FUN_NAME_LIST *p_signal_info = NULL, *next = NULL;
 	pthread_rwlock_wrlock(&s_signal_info_list_head.m_pid_fun_name_mutex);
 	list_for_each_entry_safe(PID_FUN_NAME_LIST, p_signal_info, next, &s_signal_info_list_head.m_pid_fun_name_list, m_list)
 	{

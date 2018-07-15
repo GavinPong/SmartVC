@@ -29,7 +29,7 @@ int32_t log_shutdown();
 //支持运行时调整日志输出目的地
 int32_t log_modify_param(log_param_t log_param);
 //输出日志
-int32_t log_output(log_level_e log_level, char *log_str, int32_t str_size);
+int32_t log_output(log_level_e log_level, const char *log_str, int32_t str_size);
 
 #ifdef __cplusplus
 }
