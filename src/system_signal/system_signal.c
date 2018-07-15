@@ -69,7 +69,7 @@ typedef struct __SIGNAL_DESC_LIST
 typedef struct __PID_FUN_NAME_LIST
 {
 	LIST_HEAD m_list;				//<!--该字段的链表节点
-	int32_t m_pid_id;					//<!--线程/进程ID
+	uint32_t m_pid_id;					//<!--线程/进程ID
 	char *m_send_pid_id_func_name;	//<!--发出线程/进程ID的函数名
 }PID_FUN_NAME_LIST;
 
@@ -230,7 +230,7 @@ static char *SignalInfoListGetSignalDesc(LIST_HEAD *list_head, int32_t signal)
 	return NULL;
 }
 
-static char *SignalInfoListGetPidIdFuncName(LIST_HEAD *list_head, int32_t pid_id)
+static char *SignalInfoListGetPidIdFuncName(LIST_HEAD *list_head, uint32_t pid_id)
 {
 	if (!list_head)
 		return NULL;
