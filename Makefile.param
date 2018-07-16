@@ -8,7 +8,7 @@ export CHIP_TYPE := HI_3531A
 #tools chain
 ifeq ($(CHIP_TYPE), HI_3531A)
 TOOL_CHAIN_DIR :=  #/home/share_disk/tool_chain/3531A_030/arm-hisiv300-linux/target/bin/
-export CROSS_COMPILE := #$(TOOL_CHAIN_DIR)arm-hisiv300-linux-
+export CROSS_COMPILE := $(TOOL_CHAIN_DIR)arm-hisiv300-linux-
 else
 
 endif
@@ -23,7 +23,7 @@ export MAKEDEPEND =$(CC) -MM -MT
 
 export CFLAGS := -DPLATFORM=1 -Wall
 export CPPFLAGS := -DPLATFORM=1 -Wall
-export LDFLAGSS := 
+export LDFLAGSS := -lstdc++ -lmdd -lm
 export MACRO :=
 
 ############ share lib ################# 

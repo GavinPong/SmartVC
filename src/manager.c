@@ -14,12 +14,13 @@ int32_t manager_system1_init(){
 }
 
 int32_t manager_system2_init(){
-
+	int_mode_ctr_setup();
 	return GAVIN_SUCCESS;
 }
 
 int32_t manager_system2_uninit(){
 
+	int_mode_ctr_desetup();
 	return GAVIN_SUCCESS;
 }
 

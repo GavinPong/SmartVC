@@ -32,6 +32,9 @@ History       :
 #include "system_signal.h"
 #include "log.h"
 #include "interface_id_internal.h"
+#include "intmodule_external.h"
+#include "intmodule_controler.h"
+#include "int_mod_manager.h"
 
 #ifdef __cplusplus
 extern "C"{

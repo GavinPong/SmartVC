@@ -18,6 +18,12 @@ typedef struct log_param_s{
 	char m_pathname[256];
 }log_param_t;
 
+#define LOG_PACKAGE_STR(str) {\
+	char log_str[512] = "";\
+	plat_sprintf(log_str, sizeof(log_str),"%s->%d: %s", __FILE__, __LINE__, #str);\
+	log_output(LOG_LEVEL_FILE_SCREEN, log_str, strlen(log_str));\
+}
+
 #ifdef __cplusplus
 extern "C"{
 #endif

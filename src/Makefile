@@ -14,10 +14,12 @@ INCLUDE_DIRS += -I$(UTIL_TOOLS_DIR)/list
 INCLUDE_DIRS += -I$(UTIL_TOOLS_DIR)/strfunc
 INCLUDE_DIRS += -I$(UTIL_TOOLS_DIR)/cross_platform
 INCLUDE_DIRS += -I$(UTIL_TOOLS_DIR)/error
+INCLUDE_DIRS += -I$(MDD_SDK_DIR)/inc
 
 
 LIBRARY_DIRS += -L./
 LIBRARY_DIRS += -L$(UTIL_TOOLS_DIR)
+LIBRARY_DIRS += -L$(MDD_SDK_DIR)
 
 DIR_C :=
 DIR_C +=$(wildcard *.c)
@@ -35,7 +37,7 @@ CFLAGS += -DPLATFORM=1
 #C++部分指定宏用 
 CXXFLAGS += 
 #链接库名称
-LDFLAGS += -lpthread -lstdc++
+LDFLAGS += -lpthread
 #编译选项
 LOPTION += 
 
