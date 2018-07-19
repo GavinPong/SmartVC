@@ -262,36 +262,36 @@ static void SignalHander(int32_t signal_id)
 	char *p_pid_fun_name = SignalInfoListGetPidIdFuncName(&s_signal_info_list_head.m_pid_fun_name_list, gettid());
 	if (p_signal_dec && p_pid_fun_name)
 	{
-		memcpy(str, p_pid_fun_name, sizeof(str));
+		plat_sprintf(str, sizeof(str), "%s", p_pid_fun_name);
 		if (sizeof(str) > strlen(p_pid_fun_name))
 		{
-			memcpy(str + strlen(p_pid_fun_name), p_signal_dec, sizeof(str) - strlen(p_pid_fun_name));
+			plat_sprintf(str + strlen(p_pid_fun_name), sizeof(str) - strlen(p_pid_fun_name), "%s", p_signal_dec);
 		}
 // 		if (sizeof(str) > strlen(p_pid_fun_name) + strlen(p_signal_dec))
 // 		{
-// 			memcpy(str + strlen(p_pid_fun_name) + strlen(p_signal_dec), "\r\n", sizeof(str) - strlen(p_pid_fun_name)  - strlen(p_signal_dec));
+// 			plat_sprintf(str + strlen(p_pid_fun_name) + strlen(p_signal_dec), sizeof(str) - strlen(p_pid_fun_name) -  strlen(p_signal_dec), "\r\n");
 // 		}
 	}
 	else if (p_signal_dec)
 	{
-		memcpy(str, p_signal_dec, sizeof(str));
+		plat_sprintf(str, sizeof(str), "%s", p_signal_dec);
 //		if (sizeof(str) > strlen(p_signal_dec))
 //		{
-//			memcpy(str + strlen(p_signal_dec), "\r\n", sizeof(str) - strlen(p_signal_dec));
+//			plat_sprintf(str + strlen(p_signal_dec), sizeof(str) - strlen(p_signal_dec), "\r\n");
 //		}
 
 	}
 	else if (p_pid_fun_name)
 	{
-		memcpy(str, p_pid_fun_name, sizeof(str));
+		plat_sprintf(str, sizeof(str), "%s", p_pid_fun_name);
 //		if (sizeof(str) > strlen(p_pid_fun_name))
 //		{
-			memcpy(str + strlen(p_pid_fun_name), "\r\n", sizeof(str) - strlen(p_pid_fun_name));
+			plat_sprintf(str + strlen(p_pid_fun_name), sizeof(str) - strlen(p_pid_fun_name), "\r\n");
 //		}
 	}
 	else
 	{
-		memcpy(str, "unknown signal", sizeof(str));
+		plat_sprintf(str, sizeof(str), "unknown signal");
 	}
 
 	if (SIGSEGV == signal_id)
@@ -325,7 +325,7 @@ static int SignalInfoListAddSignalDesc(int32_t signal, const char *desc, uint32_
 			p_signal_info->m_signal_mean = (char *)malloc(desc_size);
 			if(p_signal_info->m_signal_mean)
 			{
-				memcpy(p_signal_info->m_signal_mean, desc, desc_size);
+				plat_sprintf(p_signal_info->m_signal_mean, desc_size, "%s", desc);
 				pthread_rwlock_unlock(&s_signal_info_list_head.m_signal_desc_m_mutex);
 				return 1;
 			}
@@ -338,7 +338,7 @@ static int SignalInfoListAddSignalDesc(int32_t signal, const char *desc, uint32_
 		p_signal_info->m_signal_mean = (char *)malloc(desc_size);
 		if (p_signal_info->m_signal_mean)
 		{
-			memcpy(p_signal_info->m_signal_mean, desc, desc_size);
+			plat_sprintf(p_signal_info->m_signal_mean, desc_size, "%s", desc);
 			list_add_tail(&p_signal_info->m_list, &s_signal_info_list_head.m_signal_desc_list);
 			pthread_rwlock_unlock(&s_signal_info_list_head.m_signal_desc_m_mutex);
 			return 1;
@@ -585,7 +585,7 @@ int32_t SytemSignal_AddPidIdFuncName(uint32_t pid_id, const char *fun_name, uint
 			p_signal_info->m_send_pid_id_func_name = (char *)malloc(fun_name_size + 1);
 			if (p_signal_info->m_send_pid_id_func_name)
 			{
-				memcpy(p_signal_info->m_send_pid_id_func_name, fun_name, fun_name_size);
+				plat_sprintf(p_signal_info->m_send_pid_id_func_name, fun_name_size + 1, "%s", fun_name);
 				p_signal_info->m_send_pid_id_func_name[fun_name_size] = '\0';
 				pthread_rwlock_unlock(&s_signal_info_list_head.m_pid_fun_name_mutex);
 				return 1;
@@ -599,7 +599,7 @@ int32_t SytemSignal_AddPidIdFuncName(uint32_t pid_id, const char *fun_name, uint
 		p_signal_info->m_send_pid_id_func_name = (char *)malloc(fun_name_size + 1);
 		if (p_signal_info->m_send_pid_id_func_name)
 		{
-			memcpy(p_signal_info->m_send_pid_id_func_name, fun_name, fun_name_size);
+			plat_sprintf(p_signal_info->m_send_pid_id_func_name, fun_name_size + 1, "%s", fun_name);
 			p_signal_info->m_send_pid_id_func_name[fun_name_size] = '\0';
 			list_add_tail(&p_signal_info->m_list, &s_signal_info_list_head.m_pid_fun_name_list);
 			pthread_rwlock_unlock(&s_signal_info_list_head.m_pid_fun_name_mutex);

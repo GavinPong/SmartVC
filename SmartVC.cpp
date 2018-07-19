@@ -5,7 +5,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "src/log/log.h"
+/*#include "src/log/log.h"*/
+#include <log.h>
 #include "src/system_signal/system_signal.h"
 #include <cross_platform.h>
 #include "src/manager.h"
@@ -46,7 +47,7 @@ int32_t _tmain(int32_t argc, _TCHAR* argv[])
 
 	log_param.m_dst_ip = inet_addr("192.168.31.188");
 	log_param.m_dst_port = 8989;
-	memcpy(log_param.m_pathname, "./log.data", sizeof(log_param.m_pathname));
+	plat_sprintf(log_param.m_pathname, sizeof(log_param.m_pathname), "./log.data");
 	log_param.m_pathname[strlen("./log.data")] = '\0';
 
 	//step_1
