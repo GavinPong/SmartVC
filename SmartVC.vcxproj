@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\util_tools\code\base64\base64.h" />
+    <ClInclude Include="..\util_tools\code\cJSON\cJSON.h" />
+    <ClInclude Include="..\util_tools\code\cross_platform\cross_platform.h" />
+    <ClInclude Include="..\util_tools\code\error\gavin_error.h" />
+    <ClInclude Include="..\util_tools\code\filefunc\filefunc.h" />
+    <ClInclude Include="..\util_tools\code\inirw\inirw.h" />
+    <ClInclude Include="..\util_tools\code\list\list.h" />
+    <ClInclude Include="..\util_tools\code\log\log.h" />
+    <ClInclude Include="..\util_tools\code\strfunc\strfunc.h" />
+    <ClInclude Include="src\includes.h" />
+    <ClInclude Include="src\interface\interface_id_internal.h" />
+    <ClInclude Include="src\interface\interface_network.h" />
+    <ClInclude Include="src\int_mod_manager.h" />
+    <ClInclude Include="src\manager.h" />
+    <ClInclude Include="src\public_error.h" />
+    <ClInclude Include="src\system_signal\system_signal.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\util_tools\code\base64\base64.cpp" />
+    <ClCompile Include="..\util_tools\code\cJSON\cJSON.c" />
+    <ClCompile Include="..\util_tools\code\error\gavin_error.c" />
+    <ClCompile Include="..\util_tools\code\filefunc\filefunc.c" />
+    <ClCompile Include="..\util_tools\code\inirw\inirw.c" />
+    <ClCompile Include="..\util_tools\code\log\log.cpp" />
+    <ClCompile Include="..\util_tools\code\strfunc\strfunc.c" />
+    <ClCompile Include="src\interface\interface_network.c" />
+    <ClCompile Include="src\int_mod_manager.c" />
+    <ClCompile Include="src\main.c" />
+    <ClCompile Include="src\manager.c" />
+    <ClCompile Include="src\system_signal\system_signal.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\util_tools\code\base64\Makefile" />
+    <None Include="..\util_tools\code\cJSON\Makefile" />
+    <None Include="..\util_tools\code\cross_platform\Makefile" />
+    <None Include="..\util_tools\code\error\Makefile" />
+    <None Include="..\util_tools\code\filefunc\Makefile" />
+    <None Include="..\util_tools\code\inirw\Makefile" />
+    <None Include="..\util_tools\code\list\Makefile" />
+    <None Include="..\util_tools\code\log\Makefile" />
+    <None Include="..\util_tools\code\strfunc\Makefile" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{478C6D22-D67A-41B8-81D0-F97AAC156463}</ProjectGuid>
+    <RootNamespace>SmartVC</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>Z:\zp\work_space\code\util_tools\code\base64;Z:\zp\work_space\code\util_tools\code\cJSON;Z:\zp\work_space\code\util_tools\code\cross_platform;Z:\zp\work_space\code\util_tools\code\error;Z:\zp\work_space\code\util_tools\code\filefunc;Z:\zp\work_space\code\util_tools\code\inirw;Z:\zp\work_space\code\util_tools\code\list;Z:\zp\work_space\code\util_tools\code\log;Z:\zp\work_space\code\util_tools\code\strfunc;Z:\zp\work_space\code\util_tools\3rdlib\pthread_win32\x86;Z:\zp\work_space\code\SmartVC\src\system_signal;Z:\zp\work_space\code\SmartVC\src\interface;Z:\zp\work_space\thirdlib\mdd\inc;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LibraryPath>Z:\zp\work_space\code\util_tools\3rdlib\pthread_win32\x86;Z:\zp\work_space\thirdlib\mdd;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <CompileAs>CompileAsCpp</CompileAs>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>pthreadVSE2.lib;MDD.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

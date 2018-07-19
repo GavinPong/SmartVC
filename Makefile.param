@@ -28,8 +28,10 @@ export MACRO :=
 
 ############ share lib ################# 
 export HI_SDK_DIR :=
-export UTIL_TOOLS_DIR := /home/share_disk/workspace/code/util_tools/code
-export MDD_SDK_DIR := /home/share_disk/workspace/code/mdd/inc
+#export UTIL_TOOLS_DIR := /home/share_disk/workspace/code/util_tools/code
+#export MDD_SDK_DIR := /home/share_disk/workspace/code/mdd/inc
+export UTIL_TOOLS_DIR := /home/disk2/zp/work_space/code/util_tools/code
+export MDD_SDK_DIR := /home/disk2/zp/work_space/thirdlib/mdd
 
 
 ############ alone lib #################
