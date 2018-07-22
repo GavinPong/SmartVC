@@ -14,8 +14,13 @@ int32_t int_mode_ctr_setup()
 	LOG_PACKAGE_STR(1234568);
 #if 1
 	module_pub_data_t module_pub_data;
+	//dummy test
 	module_pub_data.m_module_id = 0;
 	plat_sprintf(module_pub_data.m_name, sizeof(module_pub_data.m_name), "dummy");
+	intmodule_ctrl_process_cmd(&module_pub_data);
+	//rec_muxer test
+	module_pub_data.m_module_id = 1;
+	plat_sprintf(module_pub_data.m_name, sizeof(module_pub_data.m_name), "rec_muxer");
 	intmodule_ctrl_process_cmd(&module_pub_data);
 #endif
 	return 0;
