@@ -1,82 +1,58 @@
 include Makefile.param
+include Makefile.srcs
+include Makefile.libs
 
 TARGET := SmartVC
 
-####### DIR NAME ##################
-DIR_SRC := src
-DIR_INTERFACE := $(DIR_SRC)/interface
-DIR_LOG := $(DIR_SRC)/log
-DIR_SYSTEM_SIGNAL := $(DIR_SRC)/system_signal
-###################################
 
-DIRS_C := 
+all:$(TARGET)
+	
 
-DIRS_C += $(wildcard $(UTIL_TOOLS_DIR)/base64/*.c)
-DIRS_C += $(wildcard $(UTIL_TOOLS_DIR)/cJSON/*.c)
-DIRS_C += $(wildcard $(UTIL_TOOLS_DIR)/filefunc/*.c)
-DIRS_C += $(wildcard $(UTIL_TOOLS_DIR)/inirw/*.c)
-DIRS_C += $(wildcard $(UTIL_TOOLS_DIR)/list/*.c)
-DIRS_C += $(wildcard $(UTIL_TOOLS_DIR)/log/*.c)
-DIRS_C += $(wildcard $(UTIL_TOOLS_DIR)/strfunc/*.c)
-DIRS_C += $(wildcard $(UTIL_TOOLS_DIR)/cross_platform/*c)
-DIRS_C += $(wildcard $(UTIL_TOOLS_DIR)/error/*.c)
+$(TARGET):$(OBJS_C) $(OBJS_CPP)
+	$(CC) $(SRCS_MACRO) $(CFLAGS) $(CPPFLAGS)  $(SRCS_INC) $(LIBS_INC) $(LIBS_LIB) $(OBJS_C) $(OBJS_CPP) $(LDFLAGS) -o  $@ 
+	$(STRIP)   $(STRIPFLAGS)  $@
 
-DIRS_C += $(wildcard $(DIR_SRC)/*.c)
-DIRS_C += $(wildcard $(DIR_INTERFACE)/*.c)
-DIRS_C += $(wildcard $(DIR_LOG)/*.c)
-DIRS_C += $(wildcard $(DIR_SYSTEM_SIGNAL)/*.c)
-
-DIRS_CPP := 
-
-DIRS_CPP += $(wildcard $(UTIL_TOOLS_DIR)/base64/*.cpp)
-DIRS_CPP += $(wildcard $(UTIL_TOOLS_DIR)/cJSON/*.cpp)
-DIRS_CPP += $(wildcard $(UTIL_TOOLS_DIR)/filefunc/*.cpp)
-DIRS_CPP += $(wildcard $(UTIL_TOOLS_DIR)/inirw/*.cpp)
-DIRS_CPP += $(wildcard $(UTIL_TOOLS_DIR)/list/*.cpp)
-DIRS_CPP += $(wildcard $(UTIL_TOOLS_DIR)/log/*.cpp)
-DIRS_CPP += $(wildcard $(UTIL_TOOLS_DIR)/strfunc/*.cpp)
-DIRS_CPP += $(wildcard $(UTIL_TOOLS_DIR)/cross_platform/*cpp)
-DIRS_CPP += $(wildcard $(UTIL_TOOLS_DIR)/error/*.cpp)
-
-DIRS_CPP += $(wildcard $(DIR_SRC)/*.cpp)
-DIRS_CPP += $(wildcard $(DIR_INTERFACE)/*.cpp)
-DIRS_CPP += $(wildcard $(DIR_LOG)/*.cpp)
-DIRS_CPP += $(wildcard $(DIR_SYSTEM_SIGNAL)/*.cpp)
-
-LIBOBJS_C := 
-LIBOBJS_C += $(DIRS_C:%.c=%.o)
-
-LIBOBJS_CPP := 
-LIBOBJS_CPP += $(DIRS_CPP:%.cpp=%.o)
-
-LIBRARY_DIRS += -L./
-LIBRARY_DIRS += -L$(UTIL_TOOLS_DIR)
-LIBRARY_DIRS += -L$(MDD_SDK_DIR)
-
-LDFLAGSS += -lpthread
+libmdd.so:$(OBJS_C) $(OBJS_CPP)
+	$(CC) $(SRCS_MACRO) $(CFLAGS) $(CPPFLAGS) $(OBJS_C) $(OBJS_CPP) $(LDFLAGS) -o  $@  -shared -fPIC
+	$(STRIP)   $(STRIPFLAGS)  $@
 
 
-all:
-	/bin/bash ./make_in_all_dirs.sh && $(MAKE) $(TARGET)
+libmdd.a:$(OBJS_C) $(OBJS_CPP)
+	$(AR)  rv $@   $(OBJS_C) $(OBJS_CPP)
+	$(STRIP)   $(STRIPFLAGS)  $@
 
+$(OBJS_C):%.o:%.c
+	$(CC) -o $@ -c $< $(SRCS_MACRO) $(CFLAGS) $(CPPFLAGS) $(SRCS_INC) $(LIBS_INC)
 
-$(TARGET):
-	$(CC) $(LIBRARY_DIRS) $(CFLAGS)  $(LIBOBJS_C) $(LIBOBJS_CPP) $(LDFLAGSS) -o  $@
+$(OBJS_CPP):%.o:%.cpp
+	$(CC) -o $@ -c $< $(SRCS_MACRO) $(CFLAGS) $(CPPFLAGS) $(SRCS_INC) $(LIBS_INC)
 
-clean: 
-	/bin/bash ./clear_o_file.sh
-	rm $(TARGET) -rf
+$(DEF_C):%.d:%.c
+	$(MAKEDEPEND) $(<:.c=.o) $< $(SRCS_INC) $(LIBS_INC) > $@ 
+
+$(DEF_CPP):%.d:%.cpp
+	$(MAKEDEPEND) $(<:.cpp=.o) $< $(SRCS_INC) $(LIBS_INC) > $@ 
+
+include $(DEF_C)  $(DEF_CPP)
+
+clean:
+	rm -rf $(OBJS_C) $(OBJS_CPP)
+	rm -rf $(TARGET)
 
 depend:
-	/bin/bash ./clear_d_file.sh
-	rm $(TARGET) -rf
+	rm -rf $(DEF_C) $(DEF_CPP)
 
 distclean:
-	/bin/bash ./clear_o_d_file.sh
-	rm $(TARGET) -rf
-	
+	rm -rf $(OBJS_C) $(OBJS_CPP)
+	rm -rf $(TARGET)
+	rm -rf $(DEF_C) $(DEF_CPP)
+
+install:
+	cp 	src/*.h /home/disk2/zp/work_space/thirdlib/mdd/inc -rf
+	cp 	*.so /home/disk2/zp/work_space/thirdlib/mdd/ -rf
 
 .PHONY:$(TARGET)
 .PHONY: clean
 .PHONY: depend
 .PHONY: distclean 
+.PHONY: install 

@@ -1,6 +1,6 @@
-################################
-#   所有Makefile的公共参数
-################################
+####################################
+#   所有与平台相关的编译参数全放在这里
+####################################
 #=======================================
 #plateform
 export CHIP_TYPE := HI_3531A
@@ -14,25 +14,13 @@ else
 endif
 #=======================================
 export  CC := $(CROSS_COMPILE)gcc
-export  CXX := $(CROSS_COMPILE)g++
+export  CPP := $(CROSS_COMPILE)g++
 export  AR := $(CROSS_COMPILE)ar
 export  LD := $(CROSS_COMPILE)ld
 export  STRIP := $(CROSS_COMPILE)strip
 export STRIPFLAGS:= -g --strip-unneeded
 export MAKEDEPEND =$(CC) -MM -MT
 
-export CFLAGS := -DPLATFORM=1 -Wall
-export CPPFLAGS := -DPLATFORM=1 -Wall
-export LDFLAGSS := -lstdc++ -lmdd -lm
+export CFLAGS :=   -Wall
+export CPPFLAGS :=  -Wall
 export MACRO :=
-
-############ share lib ################# 
-export HI_SDK_DIR :=
-export UTIL_TOOLS_DIR := /home/share_disk/workspace/code/util_tools/code
-export MDD_SDK_DIR := /home/share_disk/workspace/thirdlib/mdd
-#export UTIL_TOOLS_DIR := /home/disk2/zp/work_space/code/util_tools/code
-#export MDD_SDK_DIR := /home/disk2/zp/work_space/thirdlib/mdd
-
-
-############ alone lib #################
-export ALONE_LIB := 
