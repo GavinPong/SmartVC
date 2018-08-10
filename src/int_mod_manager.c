@@ -3,15 +3,14 @@
 
 int32_t int_mod_ctrl_callback(module_pub_data_t *module_pub_data)
 {
-	LOG_PACKAGE_STR(intmodule_ctrl_callback);
+	log_output(LOG_LEVEL_FILE_SCREEN, "%s->%d:into %s", __FUNCTION__, __LINE__, __FUNCTION__);
 	return 0;
 }
 
 int32_t int_mode_ctr_setup()
 {
-	LOG_PACKAGE_STR(int_mode_ctr_setup);
+	log_output(LOG_LEVEL_FILE_SCREEN, "%s->%d:into %s", __FUNCTION__, __LINE__, __FUNCTION__);
 	intmodule_ctrl_startup();
-	LOG_PACKAGE_STR(1234568);
 #if 1
 	module_pub_data_t module_pub_data;
 	//dummy test
@@ -28,7 +27,7 @@ int32_t int_mode_ctr_setup()
 
 int32_t int_mode_ctr_desetup()
 {
-	LOG_PACKAGE_STR(int_mode_ctr_desetup);
+	log_output(LOG_LEVEL_FILE_SCREEN, "%s->%d:into %s", __FUNCTION__, __LINE__, __FUNCTION__);
 	intmodule_ctrl_shutdown();
 	return 0;
 }

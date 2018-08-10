@@ -17,4 +17,4 @@ LIBS_LIB += -L/home/disk2/zp/work_space/thirdlib/mdd
 
 ##########load option#############
 LDFLAGS :=
-LDFLAGS += -lpthread -lm -lstdc++ -lmdd
+LDFLAGS += -lpthread -lm -lstdc++ -lmdd -lmpi -ljpeg -lhdmi -ltde -lupvqe -lVoiceEngine -ldnvqe -ldl
